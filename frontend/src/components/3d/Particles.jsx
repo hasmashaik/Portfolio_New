@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useRef, useMemo } from 'react'; // Added useRef import
 import { useFrame } from '@react-three/fiber';
 import { Points, PointMaterial } from '@react-three/drei';
 
@@ -14,14 +14,14 @@ const Particles = ({ count = 300 }) => {
   const colors = useMemo(() => {
     const c = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
-      c[i * 3] = 0.2 + Math.random() * 0.1; // R
-      c[i * 3 + 1] = 1.0; // G
-      c[i * 3 + 2] = 0.1 + Math.random() * 0.1; // B
+      c[i * 3] = 0.2 + Math.random() * 0.1;
+      c[i * 3 + 1] = 1.0;
+      c[i * 3 + 2] = 0.1 + Math.random() * 0.1;
     }
     return c;
   }, [count]);
 
-  const particlesRef = useRef();
+  const particlesRef = useRef(); // Now useRef is defined
 
   useFrame(({ clock }) => {
     if (particlesRef.current) {

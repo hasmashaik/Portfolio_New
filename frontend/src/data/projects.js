@@ -1,5 +1,4 @@
-// Simple project data
-const featuredProjects = [
+export const featuredProjects = [
   {
     id: 'bitrush-food',
     title: 'BitRush Food Website',
@@ -74,67 +73,5 @@ const featuredProjects = [
   }
 ];
 
-// Controllers
-export const getProjects = async (req, res) => {
-  res.json(featuredProjects);
-};
-
-export const getProjectById = async (req, res) => {
-  const { id } = req.params;
-  const project = featuredProjects.find((p) => p.id === id);
-  if (!project) {
-    return res.status(404).json({ error: 'Project not found' });
-  }
-  res.json(project);
-};
-
-export const getGithubProjects = async (req, res) => {
-  try {
-    const username = process.env.GITHUB_USERNAME || 'hasmashaik';
-    const response = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=20`);
-    
-    if (!response.ok) {
-      return res.json({
-        username,
-        public_repos: 59,
-        followers: 0,
-        totalStars: 0,
-        repos: featuredProjects.map((p) => ({ 
-          name: p.title, 
-          html_url: p.liveUrl, 
-          stargazers_count: 0,
-          description: p.description
-        })),
-      });
-    }
-
-    const repos = await response.json();
-    const totalStars = repos.reduce((acc, repo) => acc + repo.stargazers_count, 0);
-
-    res.json({
-      username,
-      public_repos: repos.length,
-      followers: 0,
-      totalStars,
-      repos: repos.map((repo) => ({
-        name: repo.name,
-        html_url: repo.html_url,
-        stargazers_count: repo.stargazers_count,
-        description: repo.description,
-      })),
-    });
-  } catch (error) {
-    res.json({
-      username: process.env.GITHUB_USERNAME || 'hasmashaik',
-      public_repos: 59,
-      followers: 0,
-      totalStars: 0,
-      repos: featuredProjects.map((p) => ({ 
-        name: p.title, 
-        html_url: p.liveUrl, 
-        stargazers_count: 0,
-        description: p.description
-      })),
-    });
-  }
-};
+// Export for any other components that might need all projects
+export const allProjects = [...featuredProjects];

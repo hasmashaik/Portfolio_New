@@ -1,8 +1,6 @@
 {
   "name": "hasma-portfolio-backend",
   "version": "1.0.0",
-  "description": "Backend API for Hasma Shaik's portfolio",
-  "main": "src/server.js",
   "type": "module",
   "scripts": {
     "start": "node src/server.js",

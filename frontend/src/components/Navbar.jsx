@@ -6,34 +6,67 @@ import { FaBars, FaTimes } from 'react-icons/fa';
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState('home');
   const location = useLocation();
 
   const navLinks = [
-    { name: 'Home', href: '/' },
-    { name: 'About', href: '#about' },
-    { name: 'Skills', href: '#skills' },
-    { name: 'Experience', href: '#experience' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Education', href: '#education' },
-    { name: 'Contact', href: '#contact' },
+    { name: 'Home', href: '#home', section: 'home' }, // Changed from '/' to '#home'
+    { name: 'About', href: '#about', section: 'about' },
+    { name: 'Skills', href: '#skills', section: 'skills' },
+    { name: 'Experience', href: '#experience', section: 'experience' },
+    { name: 'Projects', href: '#projects', section: 'projects' },
+    { name: 'Education', href: '#education', section: 'education' },
+    { name: 'Contact', href: '#contact', section: 'contact' },
   ];
 
+  // Handle scroll to detect active section
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+      
+      // Get all sections
+      const sections = navLinks.map(link => ({
+        id: link.section,
+        element: document.getElementById(link.section)
+      }));
+
+      // Find which section is currently in view
+      let currentSection = 'home';
+      sections.forEach(({ id, element }) => {
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          // Check if section is in viewport
+          if (rect.top <= 100 && rect.bottom >= 100) {
+            currentSection = id;
+          }
+        }
+      });
+      
+      setActiveSection(currentSection);
+    };
+
     window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Call once on mount
+    
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleLinkClick = (e, href) => {
-    if (href.startsWith('#')) {
-      e.preventDefault();
+  const handleLinkClick = (e, href, section) => {
+    e.preventDefault();
+    
+    if (href === '#home') {
+      // Scroll to top of page
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setActiveSection('home');
+      setIsOpen(false);
+    } else {
+      // Scroll to section
       const element = document.querySelector(href);
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
+        setActiveSection(section);
         setIsOpen(false);
       }
-    } else {
-      setIsOpen(false);
     }
   };
 
@@ -41,6 +74,11 @@ const Navbar = () => {
     e.preventDefault();
     window.open('/resume/Hasma-Shaik-Resume.pdf', '_blank');
     setIsOpen(false);
+  };
+
+  // Check if a link is active
+  const isActive = (section) => {
+    return activeSection === section;
   };
 
   return (
@@ -54,8 +92,17 @@ const Navbar = () => {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 md:h-20">
-          {/* Logo */}
-          <Link to="/" className="text-xl md:text-2xl font-bold text-white tracking-wider">
+          {/* Logo - Also scrolls to top */}
+          <Link 
+            to="/" 
+            className="text-xl md:text-2xl font-bold text-white tracking-wider"
+            onClick={(e) => {
+              e.preventDefault();
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+              setActiveSection('home');
+              setIsOpen(false);
+            }}
+          >
             <span className="text-neon">H</span>ASMA <span className="text-neon">S</span>HAIK
           </Link>
 
@@ -65,12 +112,10 @@ const Navbar = () => {
               <Link
                 key={link.name}
                 to={link.href}
-                className={`text-sm font-medium transition-colors hover:text-neon ${
-                  location.pathname === link.href && !link.href.startsWith('#')
-                    ? 'text-neon'
-                    : 'text-light-gray'
+                className={`text-sm font-medium transition-colors ${
+                  isActive(link.section) ? 'text-neon' : 'text-light-gray hover:text-neon'
                 }`}
-                onClick={(e) => handleLinkClick(e, link.href)}
+                onClick={(e) => handleLinkClick(e, link.href, link.section)}
               >
                 {link.name}
               </Link>
@@ -106,8 +151,10 @@ const Navbar = () => {
             <Link
               key={link.name}
               to={link.href}
-              className="block text-light-gray hover:text-neon transition-colors"
-              onClick={(e) => handleLinkClick(e, link.href)}
+              className={`block transition-colors ${
+                isActive(link.section) ? 'text-neon' : 'text-light-gray hover:text-neon'
+              }`}
+              onClick={(e) => handleLinkClick(e, link.href, link.section)}
             >
               {link.name}
             </Link>

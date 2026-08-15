@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
-import { FaEnvelope, FaUser, FaSubject } from 'react-icons/fa';
+import { FaEnvelope, FaUser, FaTag } from 'react-icons/fa'; // Changed FaSubject to FaTag
 
 const Contact = () => {
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
@@ -86,7 +86,7 @@ const Contact = () => {
           </div>
           <div className="mt-4">
             <label className="block text-sm font-medium text-light-gray mb-1">
-              <FaSubject className="inline mr-2 text-neon" /> Subject
+              <FaTag className="inline mr-2 text-neon" /> Subject {/* Changed here */}
             </label>
             <input
               type="text"

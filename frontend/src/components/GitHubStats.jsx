@@ -15,9 +15,10 @@ const GitHubStats = () => {
         setStats(response.data);
         setLoading(false);
       } catch (err) {
+        console.error('GitHub API Error:', err);
         setError(true);
         setLoading(false);
-        // Fallback: use static data
+        // Fallback data
         setStats({
           username: 'hasmashaik',
           public_repos: 59,
@@ -34,22 +35,6 @@ const GitHubStats = () => {
       <div className="py-10 text-center text-light-gray">
         <div className="w-12 h-12 border-4 border-neon/20 border-t-neon rounded-full animate-spin mx-auto" />
         <p className="mt-4">Loading GitHub stats...</p>
-      </div>
-    );
-  }
-
-  if (error && !stats) {
-    return (
-      <div className="py-10 text-center text-light-gray">
-        <p>Unable to fetch GitHub stats. Please visit my GitHub directly.</p>
-        <a
-          href="https://github.com/hasmashaik"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-block mt-4 text-neon hover:underline"
-        >
-          Visit GitHub →
-        </a>
       </div>
     );
   }
@@ -73,22 +58,22 @@ const GitHubStats = () => {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
           <div className="bg-dark/50 p-6 rounded-xl text-center border border-gray-800 hover:border-neon/30 transition-all">
             <FaGithub className="text-3xl text-neon mx-auto mb-2" />
-            <p className="text-2xl font-bold">{stats.public_repos || '59+'}</p>
+            <p className="text-2xl font-bold">{stats?.public_repos || '59+'}</p>
             <p className="text-sm text-light-gray">Repositories</p>
           </div>
           <div className="bg-dark/50 p-6 rounded-xl text-center border border-gray-800 hover:border-neon/30 transition-all">
-            <FaCodeBranch className="text-3xl text-neon mx-auto mb-2" />
-            <p className="text-2xl font-bold">{stats.totalStars || 'N/A'}</p>
+            <FaStar className="text-3xl text-neon mx-auto mb-2" />
+            <p className="text-2xl font-bold">{stats?.totalStars || 'N/A'}</p>
             <p className="text-sm text-light-gray">Stars</p>
           </div>
           <div className="bg-dark/50 p-6 rounded-xl text-center border border-gray-800 hover:border-neon/30 transition-all">
             <FaUsers className="text-3xl text-neon mx-auto mb-2" />
-            <p className="text-2xl font-bold">{stats.followers || 'N/A'}</p>
+            <p className="text-2xl font-bold">{stats?.followers || 'N/A'}</p>
             <p className="text-sm text-light-gray">Followers</p>
           </div>
           <div className="bg-dark/50 p-6 rounded-xl text-center border border-gray-800 hover:border-neon/30 transition-all">
             <FaGithub className="text-3xl text-neon mx-auto mb-2" />
-            <p className="text-sm font-medium text-white">@hasmashaik</p>
+            <p className="text-sm font-medium text-white">@{stats?.username || 'hasmashaik'}</p>
             <a
               href="https://github.com/hasmashaik"
               target="_blank"
@@ -99,6 +84,12 @@ const GitHubStats = () => {
             </a>
           </div>
         </div>
+
+        {error && (
+          <p className="text-center text-light-gray text-sm mt-4">
+            ⚠️ Using fallback data. <a href="https://github.com/hasmashaik" target="_blank" rel="noopener noreferrer" className="text-neon hover:underline">Visit GitHub directly</a>
+          </p>
+        )}
       </div>
     </section>
   );

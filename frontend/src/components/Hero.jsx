@@ -1,9 +1,7 @@
-import React, { Suspense, lazy } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-
-const HeroScene = lazy(() => import('./3d/HeroScene'));
 
 const Hero = () => {
   const handleResumeDownload = (e) => {
@@ -12,12 +10,12 @@ const Hero = () => {
   };
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center overflow-hidden">
-      {/* 3D Background */}
+    <section id="home" className="relative min-h-screen flex items-center overflow-hidden bg-dark">
+      {/* Background gradient */}
       <div className="absolute inset-0 z-0">
-        <Suspense fallback={<div className="w-full h-full bg-dark/50" />}>
-          <HeroScene />
-        </Suspense>
+        <div className="absolute inset-0 bg-gradient-to-br from-dark via-charcoal to-dark" />
+        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-neon/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 left-1/4 w-72 h-72 bg-neon/5 rounded-full blur-3xl" />
       </div>
 
       {/* Content Overlay */}
@@ -75,9 +73,9 @@ const Hero = () => {
             </div>
           </motion.div>
 
-          {/* Right - Profile Image (3D scene handles visuals, but we add a small overlay) */}
+          {/* Right - Profile Image */}
           <motion.div
-            className="hidden md:flex justify-center items-center"
+            className="flex justify-center items-center"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.4 }}
