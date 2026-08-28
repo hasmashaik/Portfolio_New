@@ -9,6 +9,15 @@ export const featuredProjects = [
     features: ['Responsive design', 'Food catalog', 'Order management']
   },
   {
+    id: 'resume-analyzer',
+    title: 'Resume Analyzer',
+    description: 'An AI-powered tool to analyze and extract insights from resumes.',
+    technologies: ['React', 'Node.js', 'Express', 'MongoDB'],
+    liveUrl: 'https://resume-analyzer-hazel-psi.vercel.app/',
+    githubUrl: 'https://github.com/hasmashaik/resume-analyzer.git',
+    features: ['Resume parsing', 'Skill extraction', 'Keyword analysis']
+  },
+  {
     id: 'lamp',
     title: 'LAMP',
     description: 'A creative web application showcasing interactive lighting and visual effects.',
@@ -16,6 +25,15 @@ export const featuredProjects = [
     liveUrl: 'https://lamp-4pmn.vercel.app/',
     githubUrl: 'https://github.com/hasmashaik',
     features: ['3D lighting effects', 'Interactive controls']
+  },
+  {
+    id: 'cognodb-benchmark',
+    title: 'CognoDB Benchmark Suite',
+    description: 'A comprehensive benchmarking suite for database performance testing.',
+    technologies: ['Java', 'Spring Boot', 'PostgreSQL', 'Docker'],
+    liveUrl: 'https://github.com/hasmashaik/cognodb-benchmark-suite.git',
+    githubUrl: 'https://github.com/hasmashaik/cognodb-benchmark-suite.git',
+    features: ['Performance testing', 'Database metrics', 'Benchmark reports']
   },
   {
     id: 'multiple-user-logins-redux',
@@ -34,44 +52,7 @@ export const featuredProjects = [
     liveUrl: 'https://artist-website-zeta.vercel.app/',
     githubUrl: 'https://github.com/hasmashaik',
     features: ['Gallery', 'Animations', 'Responsive']
-  },
-  {
-    id: 'circle-pic-animation',
-    title: 'Circle Pic Animation',
-    description: 'An interactive animation project with circular image transitions.',
-    technologies: ['HTML', 'CSS', 'JavaScript'],
-    liveUrl: 'https://circle-pic-animation.vercel.app/',
-    githubUrl: 'https://github.com/hasmashaik',
-    features: ['CSS animations', 'Image transitions']
-  },
-  {
-    id: 'profile-settings',
-    title: 'Profile Settings',
-    description: 'A user profile settings interface with form validation and state management.',
-    technologies: ['React', 'Bootstrap', 'React Router'],
-    liveUrl: 'https://profile-settings-tawny.vercel.app/',
-    githubUrl: 'https://github.com/hasmashaik',
-    features: ['Form validation', 'Profile management']
-  },
-  {
-    id: '404-error',
-    title: '404 Error Page',
-    description: 'A custom 404 error page with a creative design and navigation links.',
-    technologies: ['React', 'Tailwind CSS'],
-    liveUrl: 'https://404-error-two.vercel.app/',
-    githubUrl: 'https://github.com/hasmashaik',
-    features: ['Custom 404 design', 'Navigation']
-  },
-  {
-    id: 'login-profile-module',
-    title: 'Login Profile Module',
-    description: 'A modular login and profile management system with authentication.',
-    technologies: ['React', 'Node.js', 'Express', 'MongoDB'],
-    liveUrl: 'https://login-profile-module.vercel.app/login',
-    githubUrl: 'https://github.com/hasmashaik',
-    features: ['Authentication', 'Profile management', 'API integration']
   }
 ];
 
-// Additional projects for GitHub section (static fallback)
 export const allProjects = [...featuredProjects];

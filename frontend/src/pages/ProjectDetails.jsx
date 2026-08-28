@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FaGithub, FaExternalLinkAlt, FaArrowLeft } from 'react-icons/fa';
-import { featuredProjects } from '../data/projects.js'; // Added .js extension
+import { featuredProjects } from '../data/projects.js';
 
 const ProjectDetails = () => {
   const { id } = useParams();

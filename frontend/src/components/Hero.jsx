@@ -9,6 +9,15 @@ const Hero = () => {
     window.open('/resume/Hasma-Shaik-Resume.pdf', '_blank');
   };
 
+  // ✅ Fixed: Smooth scroll to projects section
+  const scrollToProjects = (e) => {
+    e.preventDefault();
+    const projectsSection = document.getElementById('projects');
+    if (projectsSection) {
+      projectsSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <section id="home" className="relative min-h-screen flex items-center overflow-hidden bg-dark">
       {/* Background gradient */}
@@ -38,12 +47,13 @@ const Hero = () => {
               Building modern, responsive and scalable web applications with React, Java, Spring Boot and Node.js.
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
-              <Link
-                to="#projects"
+              {/* ✅ FIXED: Uses onClick instead of Link to # */}
+              <button
+                onClick={scrollToProjects}
                 className="px-6 py-3 bg-neon text-dark font-semibold rounded-lg hover:bg-neon/80 transition-all shadow-lg shadow-neon/20"
               >
                 View My Projects
-              </Link>
+              </button>
               <button
                 onClick={handleResumeDownload}
                 className="px-6 py-3 border border-neon text-neon font-semibold rounded-lg hover:bg-neon/10 transition-all"

@@ -74,6 +74,7 @@ const FeaturedProjects = () => {
                       </a>
                     )}
                   </div>
+                  {/* ✅ FIXED: Uses React Router Link, not # */}
                   <Link
                     to={`/projects/${project.id}`}
                     className="text-sm text-neon hover:text-white transition-colors"
