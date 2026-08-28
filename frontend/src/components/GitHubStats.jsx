@@ -11,6 +11,7 @@ const GitHubStats = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
+        // Try to fetch from backend
         const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/projects/github`);
         setStats(response.data);
         setLoading(false);
@@ -18,7 +19,7 @@ const GitHubStats = () => {
         console.error('GitHub API Error:', err);
         setError(true);
         setLoading(false);
-        // Fallback data
+        // Use fallback static data
         setStats({
           username: 'hasmashaik',
           public_repos: 59,

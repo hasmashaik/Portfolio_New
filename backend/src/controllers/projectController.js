@@ -1,4 +1,4 @@
-// Simple project data
+// Project data
 const featuredProjects = [
   {
     id: 'bitrush-food',
@@ -10,6 +10,15 @@ const featuredProjects = [
     features: ['Responsive design', 'Food catalog', 'Order management']
   },
   {
+    id: 'resume-analyzer',
+    title: 'Resume Analyzer',
+    description: 'An AI-powered tool to analyze and extract insights from resumes.',
+    technologies: ['React', 'Node.js', 'Express', 'MongoDB'],
+    liveUrl: 'https://resume-analyzer-hazel-psi.vercel.app/',
+    githubUrl: 'https://github.com/hasmashaik/resume-analyzer.git',
+    features: ['Resume parsing', 'Skill extraction', 'Keyword analysis']
+  },
+  {
     id: 'lamp',
     title: 'LAMP',
     description: 'A creative web application showcasing interactive lighting and visual effects.',
@@ -17,6 +26,15 @@ const featuredProjects = [
     liveUrl: 'https://lamp-4pmn.vercel.app/',
     githubUrl: 'https://github.com/hasmashaik',
     features: ['3D lighting effects', 'Interactive controls']
+  },
+  {
+    id: 'cognodb-benchmark',
+    title: 'CognoDB Benchmark Suite',
+    description: 'A comprehensive benchmarking suite for database performance testing.',
+    technologies: ['Java', 'Spring Boot', 'PostgreSQL', 'Docker'],
+    liveUrl: 'https://github.com/hasmashaik/cognodb-benchmark-suite.git',
+    githubUrl: 'https://github.com/hasmashaik/cognodb-benchmark-suite.git',
+    features: ['Performance testing', 'Database metrics', 'Benchmark reports']
   },
   {
     id: 'multiple-user-logins-redux',
@@ -35,51 +53,16 @@ const featuredProjects = [
     liveUrl: 'https://artist-website-zeta.vercel.app/',
     githubUrl: 'https://github.com/hasmashaik',
     features: ['Gallery', 'Animations', 'Responsive']
-  },
-  {
-    id: 'circle-pic-animation',
-    title: 'Circle Pic Animation',
-    description: 'An interactive animation project with circular image transitions.',
-    technologies: ['HTML', 'CSS', 'JavaScript'],
-    liveUrl: 'https://circle-pic-animation.vercel.app/',
-    githubUrl: 'https://github.com/hasmashaik',
-    features: ['CSS animations', 'Image transitions']
-  },
-  {
-    id: 'profile-settings',
-    title: 'Profile Settings',
-    description: 'A user profile settings interface with form validation and state management.',
-    technologies: ['React', 'Bootstrap', 'React Router'],
-    liveUrl: 'https://profile-settings-tawny.vercel.app/',
-    githubUrl: 'https://github.com/hasmashaik',
-    features: ['Form validation', 'Profile management']
-  },
-  {
-    id: '404-error',
-    title: '404 Error Page',
-    description: 'A custom 404 error page with a creative design and navigation links.',
-    technologies: ['React', 'Tailwind CSS'],
-    liveUrl: 'https://404-error-two.vercel.app/',
-    githubUrl: 'https://github.com/hasmashaik',
-    features: ['Custom 404 design', 'Navigation']
-  },
-  {
-    id: 'login-profile-module',
-    title: 'Login Profile Module',
-    description: 'A modular login and profile management system with authentication.',
-    technologies: ['React', 'Node.js', 'Express', 'MongoDB'],
-    liveUrl: 'https://login-profile-module.vercel.app/login',
-    githubUrl: 'https://github.com/hasmashaik',
-    features: ['Authentication', 'Profile management', 'API integration']
   }
 ];
 
-// Controllers
-export const getProjects = async (req, res) => {
+// Get all projects
+export const getProjects = (req, res) => {
   res.json(featuredProjects);
 };
 
-export const getProjectById = async (req, res) => {
+// Get single project by ID
+export const getProjectById = (req, res) => {
   const { id } = req.params;
   const project = featuredProjects.find((p) => p.id === id);
   if (!project) {
@@ -88,20 +71,24 @@ export const getProjectById = async (req, res) => {
   res.json(project);
 };
 
+// Get GitHub projects
 export const getGithubProjects = async (req, res) => {
   try {
     const username = process.env.GITHUB_USERNAME || 'hasmashaik';
+    
+    // Try to fetch from GitHub API
     const response = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=20`);
     
     if (!response.ok) {
+      // Return static data if GitHub API fails
       return res.json({
-        username,
+        username: username,
         public_repos: 59,
         followers: 0,
         totalStars: 0,
         repos: featuredProjects.map((p) => ({ 
           name: p.title, 
-          html_url: p.liveUrl, 
+          html_url: p.liveUrl || p.githubUrl, 
           stargazers_count: 0,
           description: p.description
         })),
@@ -109,21 +96,23 @@ export const getGithubProjects = async (req, res) => {
     }
 
     const repos = await response.json();
-    const totalStars = repos.reduce((acc, repo) => acc + repo.stargazers_count, 0);
+    const totalStars = repos.reduce((acc, repo) => acc + (repo.stargazers_count || 0), 0);
 
     res.json({
-      username,
+      username: username,
       public_repos: repos.length,
       followers: 0,
-      totalStars,
+      totalStars: totalStars,
       repos: repos.map((repo) => ({
         name: repo.name,
         html_url: repo.html_url,
-        stargazers_count: repo.stargazers_count,
-        description: repo.description,
+        stargazers_count: repo.stargazers_count || 0,
+        description: repo.description || '',
       })),
     });
   } catch (error) {
+    // Fallback if anything fails
+    console.error('GitHub API Error:', error.message);
     res.json({
       username: process.env.GITHUB_USERNAME || 'hasmashaik',
       public_repos: 59,
@@ -131,7 +120,7 @@ export const getGithubProjects = async (req, res) => {
       totalStars: 0,
       repos: featuredProjects.map((p) => ({ 
         name: p.title, 
-        html_url: p.liveUrl, 
+        html_url: p.liveUrl || p.githubUrl, 
         stargazers_count: 0,
         description: p.description
       })),

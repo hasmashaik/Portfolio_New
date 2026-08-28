@@ -3,8 +3,13 @@ import { getProjects, getProjectById, getGithubProjects } from '../controllers/p
 
 const router = express.Router();
 
+// Get all projects
 router.get('/', getProjects);
+
+// Get GitHub projects - THIS MUST COME BEFORE /:id
+router.get('/github', getGithubProjects);
+
+// Get single project by ID (must be after /github)
 router.get('/:id', getProjectById);
-router.get('/github', getGithubProjects); // Make sure this exists!
 
 export default router;
