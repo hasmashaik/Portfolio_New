@@ -88,7 +88,7 @@ const GitHubStats = () => {
 
         {error && (
           <p className="text-center text-light-gray text-sm mt-4">
-            ⚠️ Using fallback data. <a href="https://github.com/hasmashaik" target="_blank" rel="noopener noreferrer" className="text-neon hover:underline">Visit GitHub directly</a>
+             <a href="https://github.com/hasmashaik" target="_blank" rel="noopener noreferrer" className="text-neon hover:underline">Visit GitHub directly</a>
           </p>
         )}
       </div>
